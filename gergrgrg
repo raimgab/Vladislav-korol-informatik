@@ -1,0 +1,44 @@
+    def do_left(self):
+        self.image = self.image.transpose(Image.ROTATE_90)
+        self.saveImage()
+        self.showImage()
+
+    def do_right(self):
+        self.image = self.image.transpose(Image.ROTATE_270)
+        self.saveImage()
+        self.showImage()
+
+    def do_flip(self):
+        self.image = ImageOps.mirror(self.image)
+        self.saveImage()
+        self.showImage()
+
+    def do_sharp(self):
+        self.image = self.image.filter(ImageFilter.SHARPEN)
+        self.saveImage()
+        self.showImage()
+
+    def do_bw(self):
+        self.image = ImageOps.grayscale(self.image)
+        self.saveImage()
+        self.showImage()
+
+
+workimage = ImageProcessor()
+
+
+def showChosenImage():
+    if lw_files.currentItem():
+        filename = lw_files.currentItem().text()
+        workimage.loadImage(workdir, filename)
+        workimage.showImage()
+
+
+lw_files.currentRowChanged.connect(showChosenImage)
+btn_left.clicked.connect(workimage.do_left)
+btn_right.clicked.connect(workimage.do_right)
+btn_flip.clicked.connect(workimage.do_flip)
+btn_sharp.clicked.connect(workimage.do_sharp)
+btn_bw.clicked.connect(workimage.do_bw)
+
+app.exec_()
